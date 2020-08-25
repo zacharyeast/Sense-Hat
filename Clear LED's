@@ -1,4 +1,10 @@
-#This is an unneccesarily long code that just clears the leds and resets them to blank. Does anyone happen to know a shorter code for this?
+#2 ways of clearing the sense hat screen:
+#The short way:
+from sense_hat import SenseHat
+sense = SenseHat()
+sense.clear()
+
+#The Long way:
 from sense_hat import SenseHat
 sense = SenseHat()
 sense.set_pixel(0, 0, 0, 0, 0)
