@@ -1,0 +1,94 @@
+from sense_hat import SenseHat
+from random import randint
+from time import sleep
+
+sense = SenseHat()
+sense.clear()
+pressure = sense.pressure
+print("Pressure: ",pressure)
+humidity = sense.humidity
+print("Humidity: ",humidity)
+temp = sense.temp
+print("Temperature: ",temp)
+
+#make pixel 7,4 light up as reference
+sense.set_pixel(7,4,255,255,255)
+
+#print compass bearing
+compass_enabled = True
+gyro_enabled = True
+accel_enabled = True
+sense.set_imu_config(True, True, True)
+compass = sense.compass
+north = sense.get_compass()
+print("Compass Bearing(in direction of USB, LAN ports): ", north)
+
+#print cardinal direction
+if compass > 300 or compass <45: print("Cardinal Direction: North")
+if compass < 300 and compass >225: print("Cardinal Direction: West")
+if compass <225 and compass >135: print("Cardinal Direction: South")
+if compass <135 and compass >45: print("Cardinal Direction: East")
+
+#print raw compass data
+raw = sense.get_compass_raw()
+print("Raw compass data:")
+print("x: {x}, y: {y}, z: {z}".format(**raw))
+print(sense.compass_raw)
+
+#compass on LED display
+#X = [255, 255, 255]
+#O = [0, 0, 0]
+#led_north = [
+#0, 0, X, X, X, X, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0,
+#0, 0, 0, 0, 0, 0, 0, 0
+#]
+    
+#while True:
+#    if compass > 300 or compass <45: sense.set_pixel(7,4,255,255,255)
+#    sleep(0.04)
+#    if compass < 300 and compass >225: sense.set_pixel(4,7,255,255,255)
+#    sleep(0.04)
+#    if compass <225 and compass >135: sense.set_pixel(0,4,255,255,255)
+#    sleep(0.04)
+#    if compass <135 and compass >45: sense.set_pixel(4,0,255,255,255)
+#    sleep(0.04)
+#    break
+
+
+#plum line on LED display
+from PIL import Image, ImageDraw
+sense.clear()
+origin = (7, 7)
+while True:
+    a = sense.get_accelerometer_raw()
+    # Use the old trick of drawing something too big then down-sizing to get an
+    # anti-aliased line
+    img = Image.new('RGB', (15, 15))
+    draw = ImageDraw.Draw(img)
+    dest = (origin[0] + a['x'] * 7.0, origin[1] + a['y'] * 7.0)
+    draw.line([origin, dest], fill=(255, 255, 255), width=3)
+    img = img.resize((8, 8), Image.BILINEAR)
+    sense.set_pixels(list(img.getdata()))
+    sense.set_pixel(7,4,255,255,255)
+
+    while True:
+        if compass > 300 or compass <45: sense.set_pixel(7,4,255,255,255)
+
+        if compass < 300 and compass >225: sense.set_pixel(4,7,255,255,255)
+
+
+        if compass <225 and compass >135: sense.set_pixel(0,4,255,255,255)
+
+
+        if compass <135 and compass >45: sense.set_pixel(4,0,255,255,255)
+        break
+
+
+
+
