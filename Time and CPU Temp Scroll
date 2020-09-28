@@ -1,0 +1,20 @@
+from sense_hat import SenseHat
+import time
+import datetime
+print(time.strftime("%I:%M"))
+while True:
+    from gpiozero import CPUTemperature
+    sense = SenseHat()
+    sense.clear()
+    sense.rotation = 180
+
+    white = (69, 69, 69)
+    
+    str_time = time.strftime("%I:%M")
+    sense.show_message(str_time, text_colour=white, scroll_speed=0.055)
+    cpu = CPUTemperature()
+#    print("CPU Temp C:", cpu.temperature)
+#    print("CPU Fahrenheit:",cpuf)
+    cpus = str(cpu)
+    cpusub = cpus[44:48]
+    sense.show_message(cpusub, text_colour=white, scroll_speed=0.055)
