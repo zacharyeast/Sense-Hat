@@ -1,16 +1,39 @@
-#by Zach East, 9/30/2020
-
-from time import sleep
 from sense_hat import SenseHat
-from PIL import Image, ImageDraw
 from random import randint
+from time import sleep
 
 sense = SenseHat()
-sense.set_imu_config(True, True, True)  # enables all
-sense.clear()
-origin = (7, 7)
-while True:
 
+while True:
+    #a nice sparkly background:
+    x = randint(0, 7)
+    y = randint(0, 7)
+    r = randint(0, 255)
+    g = randint(0, 255)
+    b = randint(0, 255)
+    sense.set_pixel(x, y, r, g, b)
+    sleep(0.0271828182846)
+
+
+    x = randint(0, 7)
+    y = randint(0, 7)
+    r = randint(0, 255)
+    g = randint(0, 255)
+    b = randint(0, 255)
+    sense.set_pixel(x, y, r, g, b)
+    sleep(0.00271828182846)
+    x = randint(0, 7)
+    y = randint(0, 7)
+    r = randint(0, 255)
+    g = randint(0, 255)
+    b = randint(0, 255)
+    sense.set_pixel(x, y, r, g, b)
+    sleep(0.000314159)
+    
+    #the sparkle compass:
+    from PIL import Image, ImageDraw
+    sense.set_imu_config(True, True, True)  # enables all
+    origin = (7, 7)
     X = randint(0, 255)
     
     Y = randint(0, 255)
@@ -25,5 +48,6 @@ while True:
     draw.line([origin, dest], fill=(X, Y, Z), width=3)
     img = img.resize((8, 8), Image.BILINEAR)
     sense.set_pixels(list(img.getdata()))
-    sleep(0.04)
+    
 
+    
