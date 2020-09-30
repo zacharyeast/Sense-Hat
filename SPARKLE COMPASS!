@@ -1,0 +1,29 @@
+#by Zach East, 9/30/2020
+
+from time import sleep
+from sense_hat import SenseHat
+from PIL import Image, ImageDraw
+from random import randint
+
+sense = SenseHat()
+sense.set_imu_config(True, True, True)  # enables all
+sense.clear()
+origin = (7, 7)
+while True:
+
+    X = randint(0, 255)
+    
+    Y = randint(0, 255)
+    
+    Z = randint(0, 255)
+    
+    a = sense.get_compass_raw()
+
+    img = Image.new('RGB', (15, 15))
+    draw = ImageDraw.Draw(img)
+    dest = (origin[0] + a['x'] * 7.0, origin[1] + a['y'] * 7.0)
+    draw.line([origin, dest], fill=(X, Y, Z), width=3)
+    img = img.resize((8, 8), Image.BILINEAR)
+    sense.set_pixels(list(img.getdata()))
+    sleep(0.04)
+
