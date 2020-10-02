@@ -1,0 +1,157 @@
+def which_compass():
+    whichcompass = input("Select Compass:\n1 - the original\n2 - mini\n3 - SPARKLE COMPASS!\n4 - corrected/calibrated to my iphones compass\n5 - continuous bearing output\nCompass Number:")
+
+    if whichcompass == "1":
+        print("compass #1 the original. Press F5 to choose another.")
+        from time import sleep
+        from sense_hat import SenseHat
+        from PIL import Image, ImageDraw
+
+        sense = SenseHat()
+        sense.set_imu_config(True, False, False)  # enables magnetometer
+
+        origin = (7, 7)
+        while True:
+            b = sense.get_compass_raw()
+            img = Image.new('RGB', (15, 15))
+            draw = ImageDraw.Draw(img)
+            dest = (origin[0] + b['x'] * 7.0, origin[1] + b['y'] * 7.0)
+            draw.line([origin, dest], fill=(255, 255, 255), width=3)
+            img = img.resize((8, 8), Image.BILINEAR)
+            sense.set_pixels(list(img.getdata()))
+            sleep(0.04)
+
+    if whichcompass == "2":
+        print("compass #2 the mini compass, with bearing output. Press F5 to choose another.")
+        from time import sleep
+        from sense_hat import SenseHat
+        from PIL import Image, ImageDraw
+
+        sense = SenseHat()
+        sense.set_imu_config(True, False, False)  # enables magnetometer
+        compass = sense.compass
+        north = sense.get_compass()
+        print("Compass Bearing(in direction of USB, LAN ports): ", north)
+        origin = (7, 7)
+        while True:
+            sense = SenseHat()
+            sense.set_imu_config(True, False, False)  
+            b = sense.get_compass_raw()
+            img = Image.new('RGB', (15, 15))
+            draw = ImageDraw.Draw(img)
+            dest = (origin[0] + b['x'] * 1.0, origin[0] + b['y'] * 1.5)
+            draw.line([origin, dest], fill=(255, 255, 255), width=1)
+            img = img.resize((8, 8), Image.BILINEAR)
+            sense.set_pixels(list(img.getdata()))
+            sleep(0.04)
+
+    if whichcompass == "3":
+        print("compass #3 THE DISCO COMPASS!!!! with bearing output. Press F5 to choose another.")
+        from sense_hat import SenseHat
+        from random import randint
+        from time import sleep
+
+        sense = SenseHat()
+        compass = sense.compass
+        north = sense.get_compass()
+        print("Compass Bearing(in direction of USB, LAN ports): ", north)
+        while True:
+        #a nice sparkly background:
+            x = randint(0, 7)
+            y = randint(0, 7)
+            r = randint(0, 255)
+            g = randint(0, 255)
+            b = randint(0, 255)
+            sense.set_pixel(x, y, r, g, b)
+            sleep(0.0271828182846)
+
+
+            x = randint(0, 7)
+            y = randint(0, 7)
+            r = randint(0, 255)
+            g = randint(0, 255)
+            b = randint(0, 255)
+            sense.set_pixel(x, y, r, g, b)
+            sleep(0.00271828182846)
+            x = randint(0, 7)
+            y = randint(0, 7)
+            r = randint(0, 255)
+            g = randint(0, 255)
+            b = randint(0, 255)
+            sense.set_pixel(x, y, r, g, b)
+            sleep(0.000314159)
+    
+            #the sparkle compass:
+            from PIL import Image, ImageDraw
+            sense.set_imu_config(True, False, False) 
+            origin = (7, 7)
+            X = randint(0, 255)
+    
+            Y = randint(0, 255)
+    
+            Z = randint(0, 255)
+    
+            a = sense.get_compass_raw()
+    
+            img = Image.new('RGB', (15, 15))
+            draw = ImageDraw.Draw(img)
+            dest = (origin[0] + a['x'] * 5, origin[0] + a['y'] * 9)
+            draw.line([origin, dest], fill=(X, Y, Z), width=3)
+            img = img.resize((8, 8), Image.BILINEAR)
+            sense.set_pixels(list(img.getdata()))
+            
+    if whichcompass == "4":
+        print("Compass #4 The corrected/calibrated compass, which I set based off my phones compass bearing at my location. With bearing output. Press F5 to choose another.")
+        from time import sleep
+        from sense_hat import SenseHat
+        from PIL import Image, ImageDraw
+
+        sense = SenseHat()
+        sense.set_imu_config(True, True, True)  # enables magnetometer
+        compass = sense.compass
+        north = sense.get_compass()
+        print("Compass Bearing(in direction of USB, LAN ports): ", north)
+
+        origin = (7, 7)
+        while True:
+            b = sense.get_compass_raw()
+            bstr = str(b)
+            img = Image.new('RGB', (15, 15))
+            draw = ImageDraw.Draw(img)
+            dest = (origin[0] + b['x'] * 1.0, origin[1] + b['y'] * 3.0)
+            draw.line([origin, dest], fill=(255, 255, 255), width=3)
+            img = img.resize((8, 8), Image.BILINEAR)
+            sense.set_pixels(list(img.getdata()))
+            sleep(0.04)
+    if whichcompass == "5":
+        print("Compass #5 The continuos bearing output compass. Press F5 to choose another.")
+        from time import sleep
+        from sense_hat import SenseHat
+        from PIL import Image, ImageDraw
+
+        sense = SenseHat()
+        sense.set_imu_config(True, True, True)  # enables magnetometer
+        compass = sense.compass
+        north = sense.get_compass()
+        while True:
+            sense = SenseHat()
+            sense.set_imu_config(True, True, True)  # enables magnetometer
+            compass = sense.compass
+            north = sense.get_compass()
+            print("Compass Bearing(in direction of USB, LAN ports): ", north)
+
+            origin = (7, 7)
+            while True:
+                b = sense.get_compass_raw()
+                bstr = str(b)
+                img = Image.new('RGB', (15, 15))
+                draw = ImageDraw.Draw(img)
+                dest = (origin[0] + b['x'] * 1.0, origin[1] + b['y'] * 3.0)
+                draw.line([origin, dest], fill=(255, 255, 255), width=3)
+                img = img.resize((8, 8), Image.BILINEAR)
+                sense.set_pixels(list(img.getdata()))
+                break
+        
+    return whichcompass
+
+which_compass()
