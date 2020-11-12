@@ -1,0 +1,22 @@
+import RPi.GPIO as GPIO
+import time
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11,GPIO.OUT)
+servo1 = GPIO.PWM(11,50)
+servo1.start(0)
+
+while True:
+    whichway=input("a for left and d for right")
+    if whichway == "a":
+        inputa = float(0)
+        servo1.ChangeDutyCycle(2+abs(inputa))
+        time.sleep(0.5)
+        servo1.ChangeDutyCycle(0)
+
+    if whichway == "d":
+        inputd = float(10)
+        servo1.ChangeDutyCycle(2+abs(inputd))
+        time.sleep(0.5)
+        servo1.ChangeDutyCycle(0)
+
